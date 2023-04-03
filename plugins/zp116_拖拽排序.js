@@ -1,9 +1,9 @@
-function onInit({ ctx, exc, props, container }) {
+function init({ ctx, exc, props, container }) {
     exc('load("https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js")', {}, () => {
         let arr = exc(props.arr, ctx)
         if (!Array.isArray(arr)) return warn("未配置待排序数组")
         let el = props.selector ? $(props.selector) : container.previousElementSibling
-        if (!el) return warn("未找到目标容器")
+        if (!el) return log("未找到目标容器")
         let O = {
             animation: 150,
             forceFallback: true,
@@ -75,6 +75,6 @@ $plugin({
         label: "onEnd表达式",
         ph: "可选"
     }],
-    onInit,
+    init,
     css
 })
