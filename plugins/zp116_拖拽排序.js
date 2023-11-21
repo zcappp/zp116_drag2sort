@@ -1,6 +1,6 @@
-function init({ ctx, exc, props, container }) {
+function init({ ctx, exc, excA, props, container }) {
     exc('load("https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js")', {}, () => {
-        let arr = exc(props.arr, ctx)
+        let arr = excA(props.arr, ctx)
         if (!Array.isArray(arr)) return warn("未配置待排序数组")
         let el = props.selector ? $(props.selector) : container.previousElementSibling
         if (!el) return log("未找到目标容器")
