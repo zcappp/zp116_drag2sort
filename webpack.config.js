@@ -5,7 +5,7 @@ module.exports = {
     mode: process.env.mode || "development",
     devtool: false,
     entry: {
-        "zp116": "./plugins/zp116_拖拽排序.js",
+        "zp116": "./src/zp116_拖拽排序.js",
     },
     output: {
         path: path.join(__dirname, "build/"),
