@@ -1,9 +1,10 @@
-function init({ ctx, exc, excA, props, container }) {
+function init({ ctx, exc, excA, props, container, isDev }) {
     exc('load("https://z.zccdn.cn/vendor/Sortable_1.13.0.js")', {}, () => {
-        let arr = excA(props.arr, ctx)
-        if (!Array.isArray(arr)) return warn("未配置待排序数组")
+        let arr = typeof props.arr == "string" ? excA(props.arr, ctx) : props.arr
+        if (!Array.isArray(arr)) return isDev ? warn("未配置待排序数组") : ""
         let el = props.selector ? $(props.selector) : container.previousElementSibling
-        if (!el) return log("未找到目标容器")
+        if (!el) return isDev ? log("未找到目标容器") : ""
+        if (el.Sortable) el.Sortable.destroy()
         let O = {
             animation: 150,
             forceFallback: true,
@@ -19,7 +20,7 @@ function init({ ctx, exc, excA, props, container }) {
         if (props.draggable) O.draggable = props.draggable
         if (props.onEnd) O.onEnd = $event => exc(props.onEnd, { ...ctx, $event })
         // if (props.onEnd) O.onEnd = $event => exc(props.onEnd, { ...ctx, $event }, () => exc("render()")) // 重新渲染会导致拖放后回弹
-        new Sortable(el, O)
+        el.Sortable = new Sortable(el, O)
     })
 }
 
@@ -72,7 +73,7 @@ $plugin({
     }, {
         prop: "onEnd",
         type: "exp",
-        label: "onEnd表达式",
+        label: "拖拽结束表达式",
         ph: "可选"
     }],
     init,
